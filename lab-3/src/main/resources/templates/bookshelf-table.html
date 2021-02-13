@@ -1,0 +1,38 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bookshelf</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" media="screen" th:href="@{/css/style.css}"/>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<th:block th:include="common::navbar (${'Bookshelf'})"/>
+
+<br/>
+
+<div class="container row justify-content-center">
+    <table class="table table-responsive table-striped table-light table-bordered table-hover" style="width: 80%">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Year</th>
+            <th scope="col">ISBN</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book: ${bookshelf}">
+            <td th:text="${book.getTitle()}"/>
+            <td th:text="${book.getAuthor()}"/>
+            <td th:text="${book.getYear()}"/>
+            <td th:text="${book.getIsbn()}"/>
+            <br/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>

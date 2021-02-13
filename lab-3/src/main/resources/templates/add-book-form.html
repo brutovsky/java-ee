@@ -1,0 +1,60 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Book Form</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" media="screen" th:href="@{/css/style.css}"/>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<th:block th:include="common::navbar (${'Add Book'})"/>
+
+<br/>
+
+<form action="/add-book" method="post">
+    <div class="form-group">
+        <label for="bookTitleId" class="col-10 offset-1 col-lg-4 offset-lg-4">Book Title</label>
+        <div class="col-10 offset-1 col-lg-4 offset-lg-4">
+            <input type="text" name="bookTitle" class="form-control" id="bookTitleId" placeholder="Enter book title"
+                   required>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+        <label for="bookTitleId" class="col-10 offset-1 col-lg-4 offset-lg-4">Book Author</label>
+        <div class="col-10 offset-1 col-lg-4 offset-lg-4">
+            <input type="text" name="bookAuthor" class="form-control" id="bookAuthorId" placeholder="Enter book author"
+                   required>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+        <label for="bookTitleId" class="col-10 offset-1 col-lg-4 offset-lg-4">Book Year</label>
+        <div class="col-10 offset-1 col-lg-4 offset-lg-4">
+            <input type="number" name="bookYear" class="form-control" id="bookYearId" placeholder="Enter book year"
+                   required>
+        </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+        <label for="bookTitleId" class="col-10 offset-1 col-lg-4 offset-lg-4">Book ISBN</label>
+        <div class="col-10 offset-1 col-lg-4 offset-lg-4">
+            <input type="text" name="bookISBN" class="form-control" id="bookISBNId" placeholder="Enter book ISBN"
+                   required>
+        </div>
+    </div>
+
+    <br/>
+
+    <button type="submit" class="btn btn-primary col-10 offset-1 col-lg-4 offset-lg-4">Submit</button>
+
+</form>
+
+</body>
+</html>
