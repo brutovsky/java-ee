@@ -45,7 +45,7 @@
     <div class="form-group">
         <label for="bookTitleId" class="col-10 offset-1 col-lg-4 offset-lg-4">Book ISBN</label>
         <div class="col-10 offset-1 col-lg-4 offset-lg-4">
-            <input type="text" name="bookISBN" class="form-control" id="bookISBNId" placeholder="Enter book ISBN"
+            <input type="text" name="bookISBN" class="form-control" pattern="^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$" id="bookISBNId" placeholder="Enter book ISBN"
                    required>
         </div>
     </div>

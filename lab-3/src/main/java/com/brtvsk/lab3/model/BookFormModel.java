@@ -8,10 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BookFormModel {
-
     private String bookTitle;
     private String bookISBN;
     private int bookYear;
     private String bookAuthor;
-
 }

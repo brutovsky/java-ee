@@ -1,51 +1,31 @@
 [ {
-  "title" : "Book1",
-  "isbn" : "#UIOQJWENS",
-  "author" : "Author1",
-  "year" : 1969
-}, {
-  "title" : "Book2",
-  "isbn" : "#AFASFS",
-  "author" : "Author2",
-  "year" : 1912
-}, {
-  "title" : "title",
-  "isbn" : "#UIOQJWENSDSA",
-  "author" : "author",
-  "year" : 1969
-}, {
-  "title" : "sdf",
-  "isbn" : "sdf",
-  "author" : "sdf",
-  "year" : 23
-}, {
-  "title" : "sddddddddddddddddddddddddddddddddd",
-  "isbn" : "32423",
-  "author" : "sddddddddddddddddddddddddd",
-  "year" : 32423
-}, {
-  "title" : "title",
-  "isbn" : "asfdasf",
-  "author" : "author",
-  "year" : 1111111111
-}, {
-  "title" : "dsfdss",
-  "isbn" : "sdf",
-  "author" : "sdfsdf",
-  "year" : 23423
-}, {
-  "title" : "sdf",
-  "isbn" : "sdfsdfs",
-  "author" : "sdsfdfs",
-  "year" : 23423
-}, {
   "title" : "Dune",
   "isbn" : "978-3-16-148410-0",
   "author" : "Frank Herbert",
   "year" : 1965
 }, {
-  "title" : "Book123",
-  "isbn" : "1234",
-  "author" : "Author123",
-  "year" : 1234
+  "title" : "Great Gatsby",
+  "isbn" : "978-3-66-148410-0",
+  "author" : "F. Scott Fitzgerald",
+  "year" : 1925
+}, {
+  "title" : "The Lord Of The Rings",
+  "isbn" : "999-3-16-148410-0",
+  "author" : "J.R.R.Tolkien",
+  "year" : 1968
+}, {
+  "title" : "Lord Of The Flies",
+  "isbn" : "978-7-16-148410-3",
+  "author" : "William Golding",
+  "year" : 1954
+}, {
+  "title" : "One Flew Over the Cuckoo's Nest",
+  "isbn" : "955-3-78-148410-0",
+  "author" : "Ken Kesey",
+  "year" : 1962
+}, {
+  "title" : "The Hitchhiker's Guide to the Galaxy",
+  "isbn" : "978-3-42-148410-0",
+  "author" : "Douglas Adams",
+  "year" : 1979
 } ]
