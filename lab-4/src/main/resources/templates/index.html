@@ -1,0 +1,85 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bookshelf</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" media="screen" th:href="@{/css/style.css}"/>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<br/>
+<h1 class="text-center" style="color: white">Bookshelf</h1>
+<th:block th:include="search-book-form::form"/>
+<br/>
+<th:block th:include="bookshelf-table::table"/>
+<br/>
+<h2 class="text-center" style="color: white">Add New Book</h2>
+<th:block th:include="add-book-form::form"/>
+
+<script>
+
+    function getBooks() {
+        $('#tableBody').empty();
+        $.ajax({
+            url: '/get-books',
+            success: function (response) {
+                response.forEach(function (book) {
+                    $('#tableBody').append('<tr><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
+                })
+            }
+        });
+    }
+
+    function searchBooks() {
+        $('#tableBody').empty();
+        const value = $('#searchForm').val();
+        $.ajax({
+            url: '/get-books?title=' + value,
+            success: function (response) {
+                response.forEach(function (book) {
+                    $('#tableBody').append('<tr><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
+                })
+            }
+        });
+    }
+
+    function addBook(e) {
+        e.preventDefault();
+
+        $('#loginResponse').text('');
+
+        $.ajax({
+            type: 'POST',
+            url: '/add-book',
+            dataType: 'json',
+            data: JSON.stringify({
+                bookTitle: $(this).find('[name=bookTitle]').val(),
+                bookAuthor: $(this).find('[name=bookAuthor]').val(),
+                bookYear: $(this).find('[name=bookYear]').val(),
+                bookISBN: $(this).find('[name=bookISBN]').val(),
+            }),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Content-Type', 'application/json')
+            },
+            success: function (response) {
+                if ($('#searchForm').val() !== '') searchBooks()
+                else
+                    $('#tableBody').append('<tr><td>' + response.title + '</td><td>' + response.author + '</td><td>' + response.year + '</td><td>' + response.isbn + '</td></tr>');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.statusText + ": " + XMLHttpRequest.responseJSON.message);
+            }
+        });
+    }
+
+    getBooks();
+    $('#bookForm').submit(addBook);
+    $('#searchButton').click(searchBooks);
+
+</script>
+
+<
+/body>
+< /html>
