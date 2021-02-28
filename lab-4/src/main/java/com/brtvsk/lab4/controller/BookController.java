@@ -2,10 +2,8 @@ package com.brtvsk.lab4.controller;
 
 import com.brtvsk.lab4.model.BookDto;
 import com.brtvsk.lab4.model.BookResponseDto;
-import com.brtvsk.lab4.service.BookService;
-import com.brtvsk.lab4.validation.BookValidationException;
+import com.brtvsk.lab4.service.IBookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final BookService bookService;
+    private final IBookService bookService;
 
     @ResponseBody
     @PostMapping(value = "/add-book")
@@ -27,7 +25,7 @@ public class BookController {
         System.out.println("Add book request: " + bookDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(bookService.addBook(bookDto));
+                .body(bookService.createBook(bookDto));
     }
 
     @GetMapping(value = "/get-books")

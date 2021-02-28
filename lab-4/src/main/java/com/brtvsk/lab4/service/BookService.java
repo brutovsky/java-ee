@@ -1,28 +1,25 @@
 package com.brtvsk.lab4.service;
 
-import com.brtvsk.lab4.errorHandling.ApiError;
 import com.brtvsk.lab4.model.Book;
 import com.brtvsk.lab4.model.BookDto;
 import com.brtvsk.lab4.model.BookResponseDto;
 import com.brtvsk.lab4.repository.BookRepository;
-import com.brtvsk.lab4.validation.BookValidationException;
-import com.brtvsk.lab4.validation.BookValidator;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
+import com.brtvsk.lab4.validation.IBookValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class BookService implements IBookService {
 
     private final BookRepository bookRepository;
-    private final BookValidator bookValidator;
+    private final IBookValidator bookValidator;
 
     @Override
-    public BookResponseDto addBook(BookDto bookDto) {
+    public BookResponseDto createBook(BookDto bookDto) {
         bookValidator.validateBook(bookDto);
         final Book bookToAdd = Book.of(bookDto.getBookTitle(), bookDto.getBookAuthor(), bookDto.getBookYear(), bookDto.getBookISBN());
         bookRepository.addBook(bookToAdd);

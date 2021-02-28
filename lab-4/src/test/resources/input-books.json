@@ -1,0 +1,20 @@
+[
+  {
+    "bookTitle": "The Brothers Karamazov",
+    "bookAuthor": "Fyodor Dostoevsky",
+    "bookYear": 1879,
+    "bookISBN": "978-3-10-148411-6"
+  },
+  {
+    "bookTitle": "Martin Eden",
+    "bookAuthor": "Jack London",
+    "bookYear": 1909,
+    "bookISBN": "978-3-20-148411-6"
+  },
+  {
+    "bookTitle": "Three Comrades",
+    "bookAuthor": "Erich Maria Remarque",
+    "bookYear": 1937,
+    "bookISBN": "978-3-30-148411-6"
+  }
+]

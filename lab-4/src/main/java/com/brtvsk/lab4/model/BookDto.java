@@ -1,6 +1,5 @@
 package com.brtvsk.lab4.model;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
