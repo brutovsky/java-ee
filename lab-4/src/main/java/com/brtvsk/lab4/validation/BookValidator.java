@@ -13,8 +13,6 @@ public class BookValidator implements IBookValidator {
 
     @Override
     public boolean validateBook(BookDto bookDto) throws BookValidationException{
-        final boolean exists = bookRepository.bookExists(bookDto.getBookISBN());
-        if (exists) throw new BookValidationException("Book with isbn already exists :/");
-        else return true;
+        return true;
     }
 }

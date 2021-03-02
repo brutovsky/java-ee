@@ -7,6 +7,7 @@ import com.brtvsk.lab4.validation.IBookValidator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -33,16 +34,6 @@ class BookServiceTest {
 
         assertThat(bookService.getBooks())
                 .contains(expectedBook);
-    }
-
-    @Test
-    void shouldThrowException_whenBookAlreadyExists() {
-        final BookDto testBook = new BookDto("Fight Club", "Chuck Palahniuk", 1996, "978-3-11-333333-6");
-
-        bookService.createBook(testBook);
-
-        Assertions.assertThatThrownBy(() -> bookService.createBook(testBook))
-                .isInstanceOf(BookValidationException.class);
     }
 
 }

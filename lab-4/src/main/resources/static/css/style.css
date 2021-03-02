@@ -4,19 +4,13 @@ body {
     background-image: url('/images/bookshelf.jpg');
 }
 
-#navbar-title {
-    font-size: 40px;
-    color: #ffe600;
-    font-weight: bolder;
-}
-
 li {
     font-size: 20px;
     font-weight: bolder;
 }
 
 label {
-    color: #ffffff;
+    color: #ff9d00;
     font-weight: bolder;
 }
 

@@ -1,0 +1,36 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bookshelf</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" media="screen" th:href="@{/css/style.css}"/>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<a th:href="@{/}">
+    Back
+</a>
+<br/>
+<div class="border border-5 border-dark col-4 offset-4 bg-dark rounded">
+    <div th:if="${book != null}">
+        <p class="text-white">
+            Title: <span th:text="${book.title}"></span>
+        </p>
+        <p class="text-white">
+            Author: <span th:text="${book.author}"></span>
+        </p>
+        <p class="text-white">
+            Publication Year: <span th:text="${book.year}"></span>
+        </p>
+        <p class="text-white">
+            ISBN: <span th:text="${book.isbn}"></span>
+        </p>
+    </div>
+    <div th:unless="${book != null}">
+        <p th:if="${error != null}" class="text-warning">
+            Error: <span th:text="${error}"></span>
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

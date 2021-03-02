@@ -1,45 +1,78 @@
 package com.brtvsk.lab4.repository;
 
 import com.brtvsk.lab4.model.Book;
+import com.brtvsk.lab4.model.BookEntity;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class BookRepository {
-    private final ArrayList<Book> DB = new ArrayList<>();
 
-    @PostConstruct
-    public void initDB() {
-        DB.add(Book.of("Dune", "Frank Herbert", 1965, "978-3-16-148410-0"));
-        DB.add(Book.of("Great Gatsby", "F. Scott Fitzgerald", 1925, "978-3-66-148410-0"));
-        DB.add(Book.of("The Lord Of The Rings", "J.R.R.Tolkien", 1968, "999-3-16-148410-0"));
-        DB.add(Book.of("Lord Of The Flies", "William Golding", 1954, "978-7-16-148410-3"));
-        DB.add(Book.of("One Flew Over the Cuckoo's Nest", "Ken Kesey", 1962, "955-3-78-148410-0"));
-        DB.add(Book.of("The Hitchhiker's Guide to the Galaxy", "Douglas Adams", 1979, "978-3-42-148410-0"));
+    private final EntityManager entityManager;
+
+    @Transactional
+    public BookEntity addBookToDB(final Book book) {
+        BookEntity bookEntity = new BookEntity();
+        bookEntity.setIsbn(book.getIsbn());
+        bookEntity.setTitle(book.getTitle());
+        bookEntity.setAuthor(book.getAuthor());
+        bookEntity.setPublicationYear(book.getYear());
+        return entityManager.merge(bookEntity);
     }
 
-    public void addBook(final Book book) {
-        DB.add(book);
+    @Transactional
+    public BookEntity getBookById(final int id) {
+        return entityManager.find(BookEntity.class, id);
     }
 
-    public final List<Book> getBooks() {
-        return List.copyOf(DB);
+    @Transactional
+    public BookEntity getBookByISBN(final String isbn) {
+        return entityManager.createQuery("SELECT b FROM BookEntity b WHERE b.isbn LIKE :query", BookEntity.class)
+                .setParameter("query", isbn)
+                .getSingleResult();
     }
 
+    @Transactional
+    public List<BookEntity> getBooksByTitle(final String title) {
+        return entityManager.createQuery("SELECT b FROM BookEntity b WHERE LOWER(b.title) LIKE :query", BookEntity.class)
+                .setParameter("query", "%" + title.toLowerCase() + "%")
+                .getResultList();
+    }
+
+    @Transactional
+    public List<BookEntity> getBooksByAuthor(final String author) {
+        return entityManager.createQuery("SELECT b FROM BookEntity b WHERE LOWER(b.author) LIKE :query", BookEntity.class)
+                .setParameter("query", "%" + author.toLowerCase() + "%")
+                .getResultList();
+    }
+
+    @Transactional
+    public List<BookEntity> getBooksByISBN(final String isbn) {
+        return entityManager.createQuery("SELECT b FROM BookEntity b WHERE b.isbn LIKE :query", BookEntity.class)
+                .setParameter("query", "%" + isbn + "%")
+                .getResultList();
+    }
+
+    @Transactional
+    public List<BookEntity> getAllBooks() {
+        return entityManager.createQuery("FROM BookEntity", BookEntity.class).getResultList();
+    }
+
+    @Transactional
     public boolean bookExists(final String isbn) {
-        return DB.stream().anyMatch((book -> book.getIsbn().equals(isbn)));
-    }
-
-    public final List<Book> filterBooksByTitle(final String title) {
-        return DB.stream().filter((book -> book.getTitle().toLowerCase().contains(title.toLowerCase()))).collect(Collectors.toList());
-    }
-
-    public final List<Book> filterBooksByISBN(final String isbn) {
-        return DB.stream().filter((book -> book.getIsbn().contains(isbn))).collect(Collectors.toList());
+        return entityManager
+                .createQuery("SELECT b FROM BookEntity b WHERE b.isbn LIKE :query")
+                .setParameter("query", "%" + isbn + "%")
+                .getSingleResult() != null;
     }
 
 }

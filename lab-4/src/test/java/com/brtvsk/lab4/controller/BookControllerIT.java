@@ -2,7 +2,8 @@ package com.brtvsk.lab4.controller;
 
 import com.brtvsk.lab4.model.Book;
 import com.brtvsk.lab4.model.BookDto;
-import com.brtvsk.lab4.repository.BookRepository;
+import com.brtvsk.lab4.model.BookResponseDto;
+import com.brtvsk.lab4.service.IBookService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,7 +26,7 @@ import java.util.List;
 public class BookControllerIT {
 
     @Autowired
-    private BookRepository repository;
+    private IBookService bookService;
 
     @LocalServerPort
     void savePort(final int port) {
@@ -52,8 +53,8 @@ public class BookControllerIT {
     @Test
     void shouldCreateBooks() throws Exception {
 
-        final ArrayList<Book> expectedBooks = new ArrayList<>();
-        final int initLength = repository.getBooks().size();
+        final ArrayList<BookResponseDto> expectedBooks = new ArrayList<>();
+        final int initLength = bookService.getBooks().size();
 
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -69,7 +70,7 @@ public class BookControllerIT {
                         .when()
                         .post("/add-book");
                 final BookDto bookDto = mapper.readValue(jsonText, BookDto.class);
-                expectedBooks.add(Book.of(bookDto.getBookTitle(), bookDto.getBookAuthor(), bookDto.getBookYear(), bookDto.getBookISBN()));
+                expectedBooks.add(BookResponseDto.of(bookDto.getBookTitle(), bookDto.getBookAuthor(), bookDto.getBookYear(), bookDto.getBookISBN()));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -77,8 +78,8 @@ public class BookControllerIT {
 
         final int expectedLength = expectedBooks.size() + initLength;
 
-        Assertions.assertEquals(expectedLength, repository.getBooks().size());
-        Assertions.assertTrue(repository.getBooks().containsAll(expectedBooks));
+        Assertions.assertEquals(expectedLength, bookService.getBooks().size());
+        Assertions.assertTrue(bookService.getBooks().containsAll(expectedBooks));
     }
 
     @Order(3)

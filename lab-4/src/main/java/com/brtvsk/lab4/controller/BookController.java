@@ -31,14 +31,16 @@ public class BookController {
     @GetMapping(value = "/get-books")
     public ResponseEntity<List<BookResponseDto>> getBooksController(
             @RequestParam final Optional<String> title,
+            @RequestParam final Optional<String> author,
             @RequestParam final Optional<String> isbn
     ) {
-        if (title.isPresent() || isbn.isPresent()) {
+        if (title.isPresent() || isbn.isPresent() || author.isPresent()) {
             final String bookTitle = title.orElse("");
+            final String bookAuthor = author.orElse("");
             final String bookISBN = isbn.orElse("");
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(bookService.searchBooks(bookTitle, bookISBN));
+                    .body(bookService.searchBooks(bookTitle, bookAuthor, bookISBN));
         } else
             return ResponseEntity
                     .status(HttpStatus.OK)

@@ -3,11 +3,10 @@
     <title>Bookshelf</title>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
     <link rel="stylesheet" media="screen" th:href="@{/css/style.css}"/>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <br/>
 <h1 class="text-center" style="color: white">Bookshelf</h1>
@@ -26,20 +25,21 @@
             url: '/get-books',
             success: function (response) {
                 response.forEach(function (book) {
-                    $('#tableBody').append('<tr><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
+                    $('#tableBody').append('<tr onclick="goToBookPage(\''+book.isbn+'\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
             }
         });
     }
 
     function searchBooks() {
+        const searchField = $('#searchField option:selected').val();
         $('#tableBody').empty();
         const value = $('#searchForm').val();
         $.ajax({
-            url: '/get-books?title=' + value,
+            url: '/get-books?'+searchField+'=' + value,
             success: function (response) {
                 response.forEach(function (book) {
-                    $('#tableBody').append('<tr><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
+                    $('#tableBody').append('<tr onclick="goToBookPage(\''+book.isbn+'\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
             }
         });
@@ -66,12 +66,27 @@
             success: function (response) {
                 if ($('#searchForm').val() !== '') searchBooks()
                 else
-                    $('#tableBody').append('<tr><td>' + response.title + '</td><td>' + response.author + '</td><td>' + response.year + '</td><td>' + response.isbn + '</td></tr>');
+                    $('#tableBody').append('<tr onclick="goToBookPage(\''+response.isbn+'\')"><td>' + response.title + '</td><td>' + response.author + '</td><td>' + response.year + '</td><td>' + response.isbn + '</td></tr>');
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.statusText + ": " + XMLHttpRequest.responseJSON.message);
             }
         });
+    }
+
+    function goToBookPage(isbn){
+        $.ajax({
+            url: '/book/' + isbn,
+            success: function(response) {
+                if (response === "Error") {
+                    <!-- Handle Error Here -->
+                    console.log(response)
+                } else {
+                    window.location.href = this.url;
+                }
+            }
+        })
+        ;
     }
 
     getBooks();

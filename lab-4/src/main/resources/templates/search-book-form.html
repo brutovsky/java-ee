@@ -1,21 +1,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Search Book Form</title>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" media="screen" th:href="@{/css/style.css}"/>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 
 <th:block th:fragment="form">
     <div class="row-cols-3">
         <div class="input-group">
-            <div class="form-outline col-5 offset-3">
-                <input type="search" name="searchBookInput" id="searchForm" class="form-control" placeholder="Search book by title"/>
+            <div class="form-outline col-4 offset-3">
+                <input type="search" name="searchBookInput" id="searchForm" class="form-control"
+                       placeholder="Search book by title"/>
             </div>
             <button type="submit" id="searchButton" class="btn btn-primary col-1">
                 Search
             </button>
+            <div col-1>
+                <select id="searchField" class="form-select" aria-label="Select search field"
+                        onchange="$('#searchForm').attr('placeholder','Search book by ' + $('#searchField option:selected').val());">
+                    <option value="title" selected>Title</option>
+                    <option value="author">Author</option>
+                    <option value="isbn">ISBN</option>
+                </select>
+            </div>
         </div>
     </div>
 </th:block>
