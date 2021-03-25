@@ -11,7 +11,7 @@ public interface BookRep extends JpaRepository<BookEntity, Integer>, JpaSpecific
     BookEntity getBookEntityById(final int id);
 
     BookEntity getBookEntityByIsbn(final String isbn);
-    
+
     boolean existsByIsbn(final String isbn);
 
 }

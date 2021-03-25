@@ -23,8 +23,9 @@
         $('#tableBody').empty();
         $.ajax({
             url: '/get-books',
-            success: function (response) {
-                response.forEach(function (book) {
+            success: function (data, textStatus, request) {
+                console.log(request.getResponseHeader('X-Total-Count'))
+                data.forEach(function (book) {
                     $('#tableBody').append('<tr onclick="goToBookPage(\''+book.isbn+'\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
             }
@@ -37,8 +38,9 @@
         const value = $('#searchForm').val();
         $.ajax({
             url: '/get-books?'+searchField+'=' + value,
-            success: function (response) {
-                response.forEach(function (book) {
+            success: function (data, textStatus, request) {
+                console.log(request.getResponseHeader('X-Total-Count'))
+                data.forEach(function (book) {
                     $('#tableBody').append('<tr onclick="goToBookPage(\''+book.isbn+'\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
             }

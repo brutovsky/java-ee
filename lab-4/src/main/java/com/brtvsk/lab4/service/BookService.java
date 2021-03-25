@@ -6,6 +6,9 @@ import com.brtvsk.lab4.model.BookResponseDto;
 import com.brtvsk.lab4.repository.BookRep;
 import com.brtvsk.lab4.validation.IBookValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,15 +32,32 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public List<BookResponseDto> getBooks() {
-        return bookRepository.findAll().stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
-                collect(Collectors.toList());
+    public Pair<Long, List<BookResponseDto>> getBooks(final int page, final int size) {
+        Page<BookEntity> booksPage = bookRepository.findAll(PageRequest.of(page, size));
+        return Pair.of(booksPage.getTotalElements(), booksPage.getContent().stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
+                collect(Collectors.toList()));
     }
 
     @Override
     public BookResponseDto getBookByISBN(final String isbn) {
         final BookEntity book = bookRepository.getBookEntityByIsbn(isbn);
         return BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn());
+    }
+
+    @Override
+    public Pair<Long, List<BookResponseDto>> searchBooks(final String title, final String author, final String isbn, final int page, final int size) {
+        Page<BookEntity> booksPage;
+
+        if (!title.isEmpty())
+            booksPage = bookRepository.findAll(getBooksByTitleSpec(title), PageRequest.of(page, size));
+        else if (!author.isEmpty())
+            booksPage = bookRepository.findAll(getBooksByAuthorSpec(author), PageRequest.of(page, size));
+        else if (!isbn.isEmpty())
+            booksPage = bookRepository.findAll(getBooksByIsbnSpec(isbn), PageRequest.of(page, size));
+        else booksPage = bookRepository.findAll(PageRequest.of(page, size));
+
+        return Pair.of(booksPage.getTotalElements(), booksPage.getContent().stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
+                collect(Collectors.toList()));
     }
 
     @Override
@@ -52,6 +72,12 @@ public class BookService implements IBookService {
             return bookRepository.findAll(getBooksByIsbnSpec(isbn)).stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
                     collect(Collectors.toList());
         return getBooks();
+    }
+
+    @Override
+    public List<BookResponseDto> getBooks() {
+        return bookRepository.findAll().stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
+                collect(Collectors.toList());
     }
 
 }
