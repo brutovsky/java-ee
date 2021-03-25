@@ -1,9 +1,6 @@
 package com.brtvsk.lab4.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -31,5 +28,12 @@ public class BookEntity {
 
     @Column(name="publication_year")
     private int publicationYear;
+
+    public BookEntity(final String isbn, final String title, final String author, final int year){
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.publicationYear = year;
+    }
 
 }
