@@ -43,6 +43,9 @@ public class BookController {
         int currentPage = page.orElse(0);
         int pageSize = size.orElse(5);
 
+        System.out.println(currentPage);
+        System.out.println(pageSize);
+
         Pair<Long, List<BookResponseDto>> booksPage;
 
         if (title.isPresent() || isbn.isPresent() || author.isPresent()) {

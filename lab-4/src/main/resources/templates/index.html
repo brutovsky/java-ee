@@ -19,30 +19,63 @@
 
 <script>
 
-    function getBooks() {
+    const pageSize = 3;
+
+    function createPagination(currentPage, howManyElements) {
+        let firstPage = '<a class="btn btn-primary mb-4" onclick="getBooks(0)">First</a>'
+        let prevPage = currentPage <= 0 ? '' : '<a class="btn btn-primary mb-4" onclick="getBooks(' + (currentPage - 1) + ')">' + currentPage + '</a>'
+        const pages = Math.floor(howManyElements == 0 ? 0 : (howManyElements % pageSize === 0 ? howManyElements / pageSize - 1 : howManyElements / pageSize))
+        console.log(pages)
+        let nextPage = currentPage >= pages ? '' : '<a class="btn btn-primary mb-4" onclick="getBooks(' + (currentPage + 1) + ')">' + (currentPage + 2) + '</a>'
+        let lastPage = '<a class="btn btn-primary mb-4" onclick="getBooks(' + pages + ')"">Last</a>'
+
+        let currPageNum = '<a class="btn btn-secondary mb-4" onclick="getBooks(' + currentPage + ')">' + (currentPage + 1) + '</a>'
+
+        $('#tableBody').append(firstPage + prevPage + currPageNum + nextPage + lastPage);
+    }
+
+    function createSearchPagination(currentPage, howManyElements) {
+        let firstPage = '<a class="btn btn-primary mb-4" onclick="searchBooks(0)">First</a>'
+        let prevPage = currentPage <= 0 ? '' : '<a class="btn btn-primary mb-4" onclick="searchBooks(' + (currentPage - 1) + ')">' + currentPage + '</a>'
+        const pages = Math.floor(howManyElements == 0 ? 0 : (howManyElements % pageSize === 0 ? howManyElements / pageSize - 1 : howManyElements / pageSize))
+        console.log(pages)
+        let nextPage = currentPage >= pages ? '' : '<a class="btn btn-primary mb-4" onclick="searchBooks(' + (currentPage + 1) + ')">' + (currentPage + 2) + '</a>'
+        let lastPage = '<a class="btn btn-primary mb-4" onclick="searchBooks(' + pages + ')"">Last</a>'
+
+        let currPageNum = '<a class="btn btn-secondary mb-4" onclick="searchBooks(' + currentPage + ')">' + (currentPage + 1) + '</a>'
+
+        $('#tableBody').append(firstPage + prevPage + currPageNum + nextPage + lastPage);
+    }
+
+    function getBooks(page) {
+        if (page === undefined) page = 0
         $('#tableBody').empty();
         $.ajax({
-            url: '/get-books',
+            url: '/get-books?page=' + page + '&size=' + pageSize,
             success: function (data, textStatus, request) {
-                console.log(request.getResponseHeader('X-Total-Count'))
                 data.forEach(function (book) {
-                    $('#tableBody').append('<tr onclick="goToBookPage(\''+book.isbn+'\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
+                    $('#tableBody').append('<tr onclick="goToBookPage(\'' + book.isbn + '\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
+                createPagination(page, request.getResponseHeader('X-Total-Count'))
             }
         });
     }
 
-    function searchBooks() {
+    function searchBooks(page) {
+        console.log(page)
+        if (page === undefined) page = 0
         const searchField = $('#searchField option:selected').val();
         $('#tableBody').empty();
         const value = $('#searchForm').val();
+        const baseUrl = '/get-books?size=' + pageSize + '&' + searchField + '=' + value
         $.ajax({
-            url: '/get-books?'+searchField+'=' + value,
+            url: baseUrl + '&page=' + page,
             success: function (data, textStatus, request) {
                 console.log(request.getResponseHeader('X-Total-Count'))
                 data.forEach(function (book) {
-                    $('#tableBody').append('<tr onclick="goToBookPage(\''+book.isbn+'\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
+                    $('#tableBody').append('<tr onclick="goToBookPage(\'' + book.isbn + '\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
+                createSearchPagination(page, request.getResponseHeader('X-Total-Count'))
             }
         });
     }
@@ -67,8 +100,7 @@
             },
             success: function (response) {
                 if ($('#searchForm').val() !== '') searchBooks()
-                else
-                    $('#tableBody').append('<tr onclick="goToBookPage(\''+response.isbn+'\')"><td>' + response.title + '</td><td>' + response.author + '</td><td>' + response.year + '</td><td>' + response.isbn + '</td></tr>');
+                else getBooks();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.statusText + ": " + XMLHttpRequest.responseJSON.message);
@@ -76,10 +108,10 @@
         });
     }
 
-    function goToBookPage(isbn){
+    function goToBookPage(isbn) {
         $.ajax({
             url: '/book/' + isbn,
-            success: function(response) {
+            success: function (response) {
                 if (response === "Error") {
                     <!-- Handle Error Here -->
                     console.log(response)
@@ -91,12 +123,13 @@
         ;
     }
 
-    getBooks();
+    getBooks(0);
     $('#bookForm').submit(addBook);
-    $('#searchButton').click(searchBooks);
+    $('#searchButton').click((e) => {
+        searchBooks(0)
+    });
 
 </script>
 
-<
-/body>
+< /body>
 < /html>

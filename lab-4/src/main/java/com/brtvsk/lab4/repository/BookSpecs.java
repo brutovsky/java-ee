@@ -7,19 +7,19 @@ import org.springframework.data.jpa.domain.Specification;
 public class BookSpecs {
     public static Specification<BookEntity> getBooksByTitleSpec(final String title) {
         return (book, query, criteriaBuilder) -> {
-            return criteriaBuilder.like(book.get("title"), "%" + title + "%");
+            return criteriaBuilder.like(criteriaBuilder.lower(book.get("title")), "%" + title.toLowerCase() + "%");
         };
     }
 
     public static Specification<BookEntity> getBooksByAuthorSpec(final String author) {
         return (book, query, criteriaBuilder) -> {
-            return criteriaBuilder.equal(book.get("author"), "%" + author + "%");
+            return criteriaBuilder.like(criteriaBuilder.lower(book.get("author")), "%" + author.toLowerCase() + "%");
         };
     }
 
     public static Specification<BookEntity> getBooksByIsbnSpec(final String isbn) {
         return (book, query, criteriaBuilder) -> {
-            return criteriaBuilder.equal(book.get("isbn"), "%" + isbn + "%");
+            return criteriaBuilder.like(criteriaBuilder.lower(book.get("isbn")), "%" + isbn.toLowerCase() + "%");
         };
     }
 }
