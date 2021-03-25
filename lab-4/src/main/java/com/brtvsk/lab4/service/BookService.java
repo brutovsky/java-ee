@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.brtvsk.lab4.repository.BookSpecs.*;
+
 @RequiredArgsConstructor
 @Service
 public class BookService implements IBookService {
@@ -41,13 +43,13 @@ public class BookService implements IBookService {
     @Override
     public List<BookResponseDto> searchBooks(final String title, final String author, final String isbn) {
         if (!title.isEmpty())
-            return bookRepository.getBookEntitiesByTitle(title).stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
+            return bookRepository.findAll(getBooksByTitleSpec(title)).stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
                     collect(Collectors.toList());
         if (!author.isEmpty())
-            return bookRepository.getBookEntitiesByAuthor(author).stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
+            return bookRepository.findAll(getBooksByAuthorSpec(author)).stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
                     collect(Collectors.toList());
         if (!isbn.isEmpty())
-            return bookRepository.getBookEntitiesByIsbn(isbn).stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
+            return bookRepository.findAll(getBooksByIsbnSpec(isbn)).stream().map((book -> BookResponseDto.of(book.getTitle(), book.getAuthor(), book.getPublicationYear(), book.getIsbn()))).
                     collect(Collectors.toList());
         return getBooks();
     }
