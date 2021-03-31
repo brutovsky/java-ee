@@ -4,15 +4,13 @@ import javax.persistence.*;
 
 import com.brtvsk.lab4.model.auth.type.Permission;
 import com.brtvsk.lab4.model.auth.type.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "permissions")
+@EqualsAndHashCode(exclude="roles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

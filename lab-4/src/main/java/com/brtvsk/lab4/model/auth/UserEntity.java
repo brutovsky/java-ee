@@ -5,13 +5,11 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.brtvsk.lab4.model.auth.type.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
+@EqualsAndHashCode(exclude="userRole")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
