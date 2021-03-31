@@ -2,13 +2,13 @@ package com.brtvsk.lab4.model.auth;
 
 import javax.persistence.*;
 
-import com.brtvsk.lab4.model.auth.type.Permission;
 import com.brtvsk.lab4.model.auth.type.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,5 +36,5 @@ public class UserRoleEntity {
             name = "role_permissions",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    Set<PermissionEntity> rolePermissions;
+    private Set<PermissionEntity> rolePermissions;
 }
