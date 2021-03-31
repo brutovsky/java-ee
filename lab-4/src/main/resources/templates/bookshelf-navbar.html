@@ -15,7 +15,10 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="/">Home</a>
                 <div th:if="${#authorization.expression('isAnonymous()')}">
-                    <a class="nav-item nav-link" href="/login">Login</a>
+                    <a class="nav-item nav-link" href="/login">Sign In</a>
+                </div>
+                <div th:if="${#authorization.expression('isAnonymous()')}">
+                    <a class="nav-item nav-link" href="/registration">Sign Up</a>
                 </div>
                 <div th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-item nav-link" href="/profile">Profile</a>

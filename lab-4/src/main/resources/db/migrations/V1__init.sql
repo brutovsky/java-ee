@@ -29,6 +29,17 @@ CREATE TABLE IF NOT EXISTS users(
                                             REFERENCES roles(id)
 );
 
+CREATE TABLE IF NOT EXISTS user_fav_book(
+                                    user_id INT NOT NULL,
+                                    book_id INT NOT NULL,
+                                    CONSTRAINT fk_user_id
+                                        FOREIGN KEY(user_id)
+                                            REFERENCES users(id),
+                                    CONSTRAINT fk_book_id
+                                        FOREIGN KEY(book_id)
+                                            REFERENCES books(id)
+);
+
 insert into roles (role) values
 ('ADMIN'),
 ('DEFAULT');

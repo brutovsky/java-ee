@@ -1,11 +1,15 @@
 package com.brtvsk.lab4.service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.brtvsk.lab4.config.auth.MyPasswordEncoder;
 import com.brtvsk.lab4.model.auth.PermissionEntity;
+import com.brtvsk.lab4.model.auth.UserRegistrationForm;
 import com.brtvsk.lab4.model.auth.UserEntity;
+import com.brtvsk.lab4.model.auth.UserRoleEntity;
+import com.brtvsk.lab4.model.auth.type.Role;
 import com.brtvsk.lab4.repository.auth.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
