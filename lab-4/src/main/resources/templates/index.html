@@ -8,14 +8,25 @@
 </head>
 <body>
 
+<th:block th:include="bookshelf-navbar::bookshelf-navbar"/>
+
 <br/>
-<h1 class="text-center" style="color: white">Bookshelf</h1>
+
+<div th:if="${#authorization.expression('hasAuthority(''VIEW_ADMIN'')')}">
+    <h1 class="text-center" style="color: white">Admin Page</h1>
+</div>
+<div th:unless="${#authorization.expression('hasAuthority(''VIEW_ADMIN'')')}">
+    <h1 class="text-center" style="color: white">Bookshelf</h1>
+</div>
+<br/>
 <th:block th:include="search-book-form::form"/>
 <br/>
 <th:block th:include="bookshelf-table::table"/>
 <br/>
-<h2 class="text-center" style="color: white">Add New Book</h2>
-<th:block th:include="add-book-form::form"/>
+<div th:if="${#authorization.expression('hasAuthority(''VIEW_ADMIN'')')}">
+    <h2 class="text-center" style="color: white">Add New Book</h2>
+    <th:block th:include="add-book-form::form"/>
+</div>
 
 <script>
 
