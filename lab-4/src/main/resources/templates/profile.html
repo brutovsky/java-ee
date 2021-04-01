@@ -65,14 +65,7 @@
             url: '/get-books?page=' + page + '&size=' + pageSize,
             success: function (data, textStatus, request) {
                 data.forEach(function (book) {
-                    const bookmark = (book.fav ? '<img src="/images/bookmark-star-fill.svg" alt="0">' : '<img src="/images/bookmark-star.svg" alt="0">')
-                    if ($('#onlyFavCheck').is(':checked')) {
-                        if (book.fav) {
-                            $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
-                        }
-                    } else {
-                        $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
-                    }
+                    $('#tableBody').append('<tr onclick="goToBookPage(\'' + book.isbn + '\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
                 createPagination(page, request.getResponseHeader('X-Total-Count'))
             }
@@ -89,15 +82,9 @@
         $.ajax({
             url: baseUrl + '&page=' + page,
             success: function (data, textStatus, request) {
+                console.log(request.getResponseHeader('X-Total-Count'))
                 data.forEach(function (book) {
-                    const bookmark = (book.fav ? '<img src="/images/bookmark-star-fill.svg" alt="0">' : '<img src="/images/bookmark-star.svg" alt="0">')
-                    if ($('#onlyFavCheck').is(':checked')) {
-                        if (book.fav) {
-                            $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
-                        }
-                    } else {
-                        $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
-                    }
+                    $('#tableBody').append('<tr onclick="goToBookPage(\'' + book.isbn + '\')"><td>' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td></tr>');
                 })
                 createSearchPagination(page, request.getResponseHeader('X-Total-Count'))
             }
@@ -132,29 +119,6 @@
         });
     }
 
-    function likeBook(isbn) {
-        console.log(isbn)
-        $.ajax({
-            type: 'POST',
-            url: '/like-book',
-            data: JSON.stringify({
-                bookISBN: isbn,
-            }),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Content-Type', 'application/json')
-            },
-            success: function (response) {
-                console.log("YES")
-                if ($('#searchForm').val() !== '') searchBooks()
-                else getBooks();
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                console.log("NO")
-                alert(XMLHttpRequest.statusText + ": " + XMLHttpRequest.message);
-            }
-        });
-    }
-
     function goToBookPage(isbn) {
         $.ajax({
             url: '/book/' + isbn,
@@ -174,9 +138,6 @@
     $('#bookForm').submit(addBook);
     $('#searchButton').click((e) => {
         searchBooks(0)
-    });
-    $('#onlyFavCheck').click((e) => {
-        getBooks(0);
     });
 
 </script>

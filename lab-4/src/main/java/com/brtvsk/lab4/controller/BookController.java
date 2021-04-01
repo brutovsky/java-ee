@@ -3,6 +3,7 @@ package com.brtvsk.lab4.controller;
 import com.brtvsk.lab4.model.BookDto;
 import com.brtvsk.lab4.model.BookEntity;
 import com.brtvsk.lab4.model.BookResponseDto;
+import com.brtvsk.lab4.model.LikeBookDto;
 import com.brtvsk.lab4.service.IBookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,17 @@ public class BookController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(bookService.createBook(bookDto));
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/like-book")
+    public ResponseEntity<String> likeBookController(
+            @RequestBody final LikeBookDto likeBook
+    ) {
+        bookService.likeBook(likeBook.getBookISBN());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
     }
 
     @GetMapping(value = "/get-books")

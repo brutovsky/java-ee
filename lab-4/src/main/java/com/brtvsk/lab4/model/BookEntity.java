@@ -1,8 +1,10 @@
 package com.brtvsk.lab4.model;
 
+import com.brtvsk.lab4.model.auth.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="books")
@@ -28,6 +30,9 @@ public class BookEntity {
 
     @Column(name="publication_year")
     private int publicationYear;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favBooks")
+    private List<UserEntity> users;
 
     public BookEntity(final String isbn, final String title, final String author, final int year){
         this.isbn = isbn;

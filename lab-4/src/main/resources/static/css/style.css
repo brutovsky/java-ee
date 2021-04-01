@@ -20,3 +20,7 @@ label {
     margin-right: auto;
     margin-left: auto;
 }
+
+#favButton{
+    background-image: url('/images/bookmark-star.svg');
+}

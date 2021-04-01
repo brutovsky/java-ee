@@ -8,4 +8,5 @@ public class BookResponseDto {
     private final String author;
     private final int year;
     private final String isbn;
+    private final boolean isFav;
 }

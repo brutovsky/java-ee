@@ -36,7 +36,7 @@ class BookControllerTest {
     void shouldCreateBook() throws Exception {
         final Book toCreate = Book.of("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968, "978-3-16-148410-6");
 
-        final BookResponseDto bookResponse = BookResponseDto.of(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn());
+        final BookResponseDto bookResponse = BookResponseDto.of(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn(), false);
         final BookDto bookRequest = new BookDto(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn());
 
         Mockito.when(bookService.createBook(any()))
@@ -61,7 +61,7 @@ class BookControllerTest {
     void shouldNotCreateBook() throws Exception {
         final Book toCreate = Book.of("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968, "978-3-16-148410-0");
 
-        final BookResponseDto bookResponse = BookResponseDto.of(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn());
+        final BookResponseDto bookResponse = BookResponseDto.of(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn(), false);
 
         final BookValidationException expectedException = new BookValidationException("Book isbn already exists");
         final ApiError apiResponse =
@@ -90,7 +90,7 @@ class BookControllerTest {
     void shouldReturnBooks() throws Exception {
         final Book toCreate = Book.of("Do Androids Dream of Electric Sheep?", "Philip K. Dick", 1968, "978-3-16-148410-6");
 
-        final BookResponseDto bookResponse = BookResponseDto.of(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn());
+        final BookResponseDto bookResponse = BookResponseDto.of(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn(), false);
         final BookDto bookRequest = new BookDto(toCreate.getTitle(), toCreate.getAuthor(), toCreate.getYear(), toCreate.getIsbn());
 
         Mockito.when(bookService.createBook(any()))

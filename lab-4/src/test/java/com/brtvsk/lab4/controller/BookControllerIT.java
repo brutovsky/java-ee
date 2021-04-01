@@ -70,7 +70,7 @@ public class BookControllerIT {
                         .when()
                         .post("/add-book");
                 final BookDto bookDto = mapper.readValue(jsonText, BookDto.class);
-                expectedBooks.add(BookResponseDto.of(bookDto.getBookTitle(), bookDto.getBookAuthor(), bookDto.getBookYear(), bookDto.getBookISBN()));
+                expectedBooks.add(BookResponseDto.of(bookDto.getBookTitle(), bookDto.getBookAuthor(), bookDto.getBookYear(), bookDto.getBookISBN(), false));
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

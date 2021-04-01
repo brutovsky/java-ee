@@ -29,17 +29,6 @@ CREATE TABLE IF NOT EXISTS users(
                                             REFERENCES roles(id)
 );
 
-CREATE TABLE IF NOT EXISTS user_fav_book(
-                                    user_id INT NOT NULL,
-                                    book_id INT NOT NULL,
-                                    CONSTRAINT fk_user_id
-                                        FOREIGN KEY(user_id)
-                                            REFERENCES users(id),
-                                    CONSTRAINT fk_book_id
-                                        FOREIGN KEY(book_id)
-                                            REFERENCES books(id)
-);
-
 insert into roles (role) values
 ('ADMIN'),
 ('DEFAULT');
@@ -75,3 +64,18 @@ INSERT INTO books VALUES (default, 'George Orwell','999-5-55-148410-0',1949,'198
 INSERT INTO books VALUES (default, 'Fyodor Dostoyevsky','666-7-16-148410-3',1872,'Demons');
 INSERT INTO books VALUES (default, 'Anthony Burgess','955-3-78-333330-0',1986,'A Clockwork Orange');
 INSERT INTO books VALUES (default, 'Philip K. Dick','987-3-42-148410-0',1968,'Do Androids Dream of Electric Sheep?');
+
+CREATE TABLE IF NOT EXISTS user_fav_book(
+                                            user_id INT NOT NULL,
+                                            book_id INT NOT NULL,
+                                            CONSTRAINT fk_user_id
+                                                FOREIGN KEY(user_id)
+                                                    REFERENCES users(id),
+                                            CONSTRAINT fk_book_id
+                                                FOREIGN KEY(book_id)
+                                                    REFERENCES books(id)
+);
+
+insert into user_fav_book (user_id, book_id) values
+((select id from users where login = 'user'), (select id from books where title = 'Great Gatsby')),
+((select id from users where login = 'user'), (select id from books where title = 'Dune'));

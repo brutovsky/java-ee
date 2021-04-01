@@ -26,7 +26,7 @@ class BookServiceTest {
     @Test
     void shouldCreateBook() {
         final BookDto testBook = new BookDto("The Fall", "978-3-11-222222-6", 1956, "Albert Camus");
-        final BookResponseDto expectedBook = BookResponseDto.of("The Fall", "Albert Camus", 1956, "978-3-11-222222-6");
+        final BookResponseDto expectedBook = BookResponseDto.of("The Fall", "Albert Camus", 1956, "978-3-11-222222-6", false);
 
         bookService.createBook(testBook);
 
