@@ -68,10 +68,10 @@
                     const bookmark = (book.fav ? '<img src="/images/bookmark-star-fill.svg" alt="0">' : '<img src="/images/bookmark-star.svg" alt="0">')
                     if ($('#onlyFavCheck').is(':checked')) {
                         if (book.fav) {
-                            $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
+                            $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\','+ page +')"">' + bookmark + '</td></tr>');
                         }
                     } else {
-                        $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
+                        $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\','+ page +')"">' + bookmark + '</td></tr>');
                     }
                 })
                 createPagination(page, request.getResponseHeader('X-Total-Count'))
@@ -93,10 +93,10 @@
                     const bookmark = (book.fav ? '<img src="/images/bookmark-star-fill.svg" alt="0">' : '<img src="/images/bookmark-star.svg" alt="0">')
                     if ($('#onlyFavCheck').is(':checked')) {
                         if (book.fav) {
-                            $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
+                            $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\','+ page +')"">' + bookmark + '</td></tr>');
                         }
                     } else {
-                        $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\')">' + bookmark + '</td></tr>');
+                        $('#tableBody').append('<tr><td onclick="goToBookPage(\'' + book.isbn + '\')">' + book.title + '</td><td>' + book.author + '</td><td>' + book.year + '</td><td>' + book.isbn + '</td><td onclick="likeBook(\'' + book.isbn + '\','+ page +')"">' + bookmark + '</td></tr>');
                     }
                 })
                 createSearchPagination(page, request.getResponseHeader('X-Total-Count'))
@@ -132,7 +132,7 @@
         });
     }
 
-    function likeBook(isbn) {
+    function likeBook(isbn, page) {
         console.log(isbn)
         $.ajax({
             type: 'POST',
@@ -144,9 +144,8 @@
                 xhr.setRequestHeader('Content-Type', 'application/json')
             },
             success: function (response) {
-                console.log("YES")
-                if ($('#searchForm').val() !== '') searchBooks()
-                else getBooks();
+                if ($('#searchForm').val() !== '') searchBooks(page)
+                else getBooks(page);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log("NO")
