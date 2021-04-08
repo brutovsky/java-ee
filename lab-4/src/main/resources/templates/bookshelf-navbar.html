@@ -21,10 +21,10 @@
                     <a class="nav-item nav-link" href="/registration">Sign Up</a>
                 </div>
                 <div th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a class="nav-item nav-link" href="/profile">Profile</a>
-                </div>
-                <div th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-item nav-link" href="/logout">Logout</a>
+                </div>
+                <div th:if="${#authorization.expression('!hasAuthority(''VIEW_ADMIN'')')}">
+                    <p class="nav-item text-warning">* To create books login as admin (password:password)</p>
                 </div>
             </div>
         </div>
