@@ -5,6 +5,7 @@ import com.brtvsk.lab4.model.BookEntity;
 import com.brtvsk.lab4.model.BookResponseDto;
 import com.brtvsk.lab4.model.LikeBookDto;
 import com.brtvsk.lab4.service.IBookService;
+import com.brtvsk.lab4.validation.IBookValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.util.Pair;
@@ -13,21 +14,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 public class BookController {
 
     private final IBookService bookService;
+    private final IBookValidator bookValidator;
 
     @ResponseBody
     @PostMapping(value = "/add-book")
-    public ResponseEntity<BookResponseDto> addBookController(
+    public ResponseEntity<?> addBookController(
             @RequestBody final BookDto bookDto
     ) {
         System.out.println("Add book request: " + bookDto);
+        List<String> errors = bookValidator.validateBook(bookDto);
+        if(!errors.isEmpty()){
+            return ResponseEntity.badRequest().body(errors);
+        }
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(bookService.createBook(bookDto));

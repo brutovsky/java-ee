@@ -13,24 +13,33 @@
 <div class="container">
     <form class="form-signin" action="/registration" th:object="${userForm}" method="POST">
         <h2 class="form-signin-heading">Please sign up</h2>
-        <p>
-            <label for="username" class="sr-only">Username</label>
-            <input th:field="*{login}" type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
-        </p>
-        <div th:if="${loginError != null}">
-            <p class="text-danger" th:text="${loginError}"></p>
+        <div th:if="${registrationFormErrors != null}">
+            <th:block th:each="error : ${registrationFormErrors}">
+                <p style='margin: 0px' class="text-danger" th:text="${error}"></p>
+            </th:block>
+        </div>
+        <div th:if="${passwordErrors != null}">
+            <th:block th:each="error : ${passwordErrors}">
+                <p style='margin: 0px' class="text-danger" th:text="${error}"></p>
+            </th:block>
+        </div>
+        <div th:if="${loginErrors != null}">
+            <th:block th:each="error : ${loginErrors}">
+                <p style='margin: 0px' class="text-danger" th:text="${error}"></p>
+            </th:block>
         </div>
         <p>
+            <label for="username" class="sr-only">Username</label>
+            <input th:field="*{login}" type="text" id="username" name="username" class="form-control" placeholder="Username" autofocus="">
+        </p>
+        <p>
             <label for="password" class="sr-only">Password</label>
-            <input th:field="*{password}" type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
+            <input th:field="*{password}" type="password" id="password" name="password" class="form-control" placeholder="Password">
         </p>
         <p>
             <label for="passwordConfirm" class="sr-only">Password</label>
-            <input th:field="*{passwordConfirm}" type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" placeholder="Password" required="">
+            <input th:field="*{passwordConfirm}" type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" placeholder="Password">
         </p>
-        <div th:if="${passwordError != null}">
-            <p class="text-danger" th:text="${passwordError}"><p/>
-        </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
         <br/>
         <div class="row">

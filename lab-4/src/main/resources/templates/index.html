@@ -125,9 +125,21 @@
             success: function (response) {
                 if ($('#searchForm').val() !== '') searchBooks()
                 else getBooks();
+                $('#book-alert').attr("hidden",true)
+                let bookSuccess = $('#book-success')
+                bookSuccess.text("Book was successfully added")
+                bookSuccess.attr("hidden",false);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(XMLHttpRequest.statusText + ": " + XMLHttpRequest.responseJSON.message);
+                $('#book-success').attr("hidden",true)
+                let bookAlert = $('#book-alert')
+                bookAlert.empty()
+                let errors = XMLHttpRequest.responseJSON;
+                errors.sort();
+                errors.forEach(obj=>{
+                    bookAlert.append("<p style='margin: 0px'>" + obj + "</p>");
+                })
+                bookAlert.attr("hidden",false);
             }
         });
     }
